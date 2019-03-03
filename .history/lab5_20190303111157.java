@@ -6,7 +6,7 @@
 
 /* I/O Libraries */
 import java.io.*; 
-import java.util.Scanner;
+import java.util.Scanner; 
 
 /* Objects */
 import java.lang.String;
@@ -93,8 +93,6 @@ class Globals {
     public static int[] GHR;
     public static Map<Integer, Integer> predictionTable = new HashMap<Integer, Integer>() {{
     }};
-    public static int correctPredictions = 0;
-    public static int incorrectPredictions = 0;
 
 
 
@@ -201,8 +199,6 @@ class lab5 {
     public static void run() {
         int pc = Globals.registerMap.get("pc");
         int pipePC;
-        int prediction = 0;
-        int index = 0;
         inst currentInst, nextInst;
         pipe newPipe;
 
@@ -249,75 +245,24 @@ class lab5 {
 
             
             // squash flag
-            //predictBranch();
-            if(currentInst.opcode.matches("beq|bne")){
-                index = parseGHR();
-                prediction = predictBranch(index);
+            predictBranch();
 
-                if (currentInst.taken == true){
-                    Globals.GHR = shiftLeft(Globals.GHR);
-                    Globals.GHR[Globals.GHRSize-1] = 1;
-                    newPipe.threeSquash = true;
-                    Globals.totalBranches += 1;
-                    Globals.takenBranches += 1;
-
-                    // Prediction was correct, increment
-                    if (prediction == 2 || prediction == 3){
-                        Globals.correctPredictions += 1;
-                    }
-                    // prediction was false, decrement
-                    if (prediction == 0 || prediction == 1){
-                        Globals.incorrectPredictions += 1;
-                    }
-                    int newPrediction = prediction+1;
-                    if (newPrediction > 3){
-                        newPrediction = 3;
-                    }
-                    Globals.predictionTable.put(index, newPrediction);
-                    
-                }
-
-                if (currentInst.taken == false){
-                    Globals.GHR = shiftLeft(Globals.GHR);
-                    Globals.GHR[Globals.GHRSize-1] = 0;
-                    Globals.totalBranches += 1;
-
-                    if (prediction == 2 || prediction == 3){
-                        Globals.incorrectPredictions += 1;
-                    }
-                    if (prediction == 0 || prediction == 1){
-                        Globals.correctPredictions += 1;
-                    }
-                    int newPrediction = prediction-1;
-                    if (newPrediction < 0){
-                        newPrediction = 0;
-                    }
-                    Globals.predictionTable.put(index, newPrediction);
-                }
-
+            if(currentInst.opcode.matches("beq|bne") && currentInst.taken) {
+                Globals.GHR = shiftLeft(Globals.GHR);
+                Globals.GHR[Globals.GHRSize-1] = 1;
+                newPipe.threeSquash = true;
+                Globals.totalBranches += 1;
+                Globals.takenBranches += 1;
                 printGHR();
-
             }
 
-            // if(currentInst.opcode.matches("beq|bne") && currentInst.taken) {
-            //     Globals.GHR = shiftLeft(Globals.GHR);
-            //     Globals.GHR[Globals.GHRSize-1] = 1;
-            //     newPipe.threeSquash = true;
-            //     Globals.totalBranches += 1;
-            //     Globals.takenBranches += 1;
+            if (currentInst.opcode.matches("beq|bne") && (currentInst.taken == false)){
 
-            //     if (prediction == 1){
-
-            //     }
-            //     printGHR();
-            // }
-
-            // if (currentInst.opcode.matches("beq|bne") && (currentInst.taken == false)){
-            //     Globals.GHR = shiftLeft(Globals.GHR);
-            //     Globals.GHR[Globals.GHRSize-1] = 0;
-            //     Globals.totalBranches += 1;
-            //     printGHR();
-            // }
+                Globals.GHR = shiftLeft(Globals.GHR);
+                Globals.GHR[Globals.GHRSize-1] = 0;
+                Globals.totalBranches += 1;
+                printGHR();
+            }
 
             Globals.pipelineList.add(newPipe);
 
@@ -346,38 +291,25 @@ class lab5 {
     // Takes GHR and Turns it into an index
     public static int parseGHR(){
         int index = 0;
-        int counter = 0;
-        String binaryString = "";
-
-        while (counter < Globals.GHRSize){
-            binaryString += Globals.GHR[counter];
-            System.out.println(binaryString);
-            counter++;
+        if (Globals.GHR[3] == 1){
+            index += 1;
         }
-
-        index = Integer.parseInt(binaryString, 2);
-        System.out.println(index);
-
-        // if (Globals.GHR[3] == 1){
-        //     index += 1;
-        // }
-        // if (Globals.GHR[2] == 1){
-        //     index += 2;
-        // }
-        // if (Globals.GHR[1] == 1){
-        //     index += 4;
-        // }
-        // if (Globals.GHR[0] == 1){
-        //     index += 8;
-        // }
+        if (Globals.GHR[2] == 1){
+            index += 2;
+        }
+        if (Globals.GHR[1] == 1){
+            index += 4;
+        }
+        if (Globals.GHR[0] == 1){
+            index += 8;
+        }
         return index;
     }
 
-    public static int predictBranch(int index){
-        //int index = parseGHR();
+    public static void predictBranch(){
+        int index = parseGHR();
         int prediction = Globals.predictionTable.get(index);
-        //System.out.println("Index: " + index);
-        return prediction;
+        System.out.println("Index: " + index);
     }
 
     public static int[] shiftLeft(int[] nums) {
@@ -408,16 +340,13 @@ class lab5 {
     }
 
     public static void createPredictionTable(){
-        int counter = 0;
-        double predictionTableSize = Math.pow(2, Globals.GHRSize); 
-        while (counter < predictionTableSize){
+        Integer counter = 0;
+        while (counter < Globals.GHRSize){
             Globals.predictionTable.put(counter, 0);
-            counter++;
         }
     }
 
     public static void createGHR(){
-        createPredictionTable();
         System.out.println("Globals.GHRSize: " + Globals.GHRSize);
         Globals.GHR = new int[Globals.GHRSize];
         fillGHR();

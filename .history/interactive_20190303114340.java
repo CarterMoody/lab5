@@ -184,8 +184,7 @@ class interactive{
         System.out.println("Total Branches: " + Globals.totalBranches);
         System.out.println("Taken Branches: " + Globals.takenBranches);
         System.out.println("Correct Predictions: " + Globals.correctPredictions);
-
-        System.out.println("Branch Accuracy: " + String.format("%.4f%n", Accuracy));
+        System.out.println("Branch Accuracy: " + Accuracy);
         
     }
 

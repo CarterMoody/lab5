@@ -346,30 +346,18 @@ class lab5 {
     // Takes GHR and Turns it into an index
     public static int parseGHR(){
         int index = 0;
-        int counter = 0;
-        String binaryString = "";
-
-        while (counter < Globals.GHRSize){
-            binaryString += Globals.GHR[counter];
-            System.out.println(binaryString);
-            counter++;
+        if (Globals.GHR[3] == 1){
+            index += 1;
         }
-
-        index = Integer.parseInt(binaryString, 2);
-        System.out.println(index);
-
-        // if (Globals.GHR[3] == 1){
-        //     index += 1;
-        // }
-        // if (Globals.GHR[2] == 1){
-        //     index += 2;
-        // }
-        // if (Globals.GHR[1] == 1){
-        //     index += 4;
-        // }
-        // if (Globals.GHR[0] == 1){
-        //     index += 8;
-        // }
+        if (Globals.GHR[2] == 1){
+            index += 2;
+        }
+        if (Globals.GHR[1] == 1){
+            index += 4;
+        }
+        if (Globals.GHR[0] == 1){
+            index += 8;
+        }
         return index;
     }
 

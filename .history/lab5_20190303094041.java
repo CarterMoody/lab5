@@ -6,7 +6,7 @@
 
 /* I/O Libraries */
 import java.io.*; 
-import java.util.Scanner;
+import java.util.Scanner; 
 
 /* Objects */
 import java.lang.String;
@@ -89,12 +89,8 @@ class Globals {
 
     public static int totalBranches;
     public static int takenBranches;
-    public static int GHRSize;
-    public static int[] GHR;
-    public static Map<Integer, Integer> predictionTable = new HashMap<Integer, Integer>() {{
-    }};
-    public static int correctPredictions = 0;
-    public static int incorrectPredictions = 0;
+    public static int GHRSize = 2;
+    public static int[] GHR = new int[GHRSize];
 
 
 
@@ -201,8 +197,6 @@ class lab5 {
     public static void run() {
         int pc = Globals.registerMap.get("pc");
         int pipePC;
-        int prediction = 0;
-        int index = 0;
         inst currentInst, nextInst;
         pipe newPipe;
 
@@ -247,77 +241,16 @@ class lab5 {
 
             }
 
-            
             // squash flag
-            //predictBranch();
-            if(currentInst.opcode.matches("beq|bne")){
-                index = parseGHR();
-                prediction = predictBranch(index);
-
-                if (currentInst.taken == true){
-                    Globals.GHR = shiftLeft(Globals.GHR);
-                    Globals.GHR[Globals.GHRSize-1] = 1;
-                    newPipe.threeSquash = true;
-                    Globals.totalBranches += 1;
-                    Globals.takenBranches += 1;
-
-                    // Prediction was correct, increment
-                    if (prediction == 2 || prediction == 3){
-                        Globals.correctPredictions += 1;
-                    }
-                    // prediction was false, decrement
-                    if (prediction == 0 || prediction == 1){
-                        Globals.incorrectPredictions += 1;
-                    }
-                    int newPrediction = prediction+1;
-                    if (newPrediction > 3){
-                        newPrediction = 3;
-                    }
-                    Globals.predictionTable.put(index, newPrediction);
-                    
-                }
-
-                if (currentInst.taken == false){
-                    Globals.GHR = shiftLeft(Globals.GHR);
-                    Globals.GHR[Globals.GHRSize-1] = 0;
-                    Globals.totalBranches += 1;
-
-                    if (prediction == 2 || prediction == 3){
-                        Globals.incorrectPredictions += 1;
-                    }
-                    if (prediction == 0 || prediction == 1){
-                        Globals.correctPredictions += 1;
-                    }
-                    int newPrediction = prediction-1;
-                    if (newPrediction < 0){
-                        newPrediction = 0;
-                    }
-                    Globals.predictionTable.put(index, newPrediction);
-                }
-
-                printGHR();
-
+            if(currentInst.opcode.matches("beq|bne") && currentInst.taken) {
+                newPipe.threeSquash = true;
+                Globals.totalBranches += 1;
+                Globals.takenBranches += 1;
             }
 
-            // if(currentInst.opcode.matches("beq|bne") && currentInst.taken) {
-            //     Globals.GHR = shiftLeft(Globals.GHR);
-            //     Globals.GHR[Globals.GHRSize-1] = 1;
-            //     newPipe.threeSquash = true;
-            //     Globals.totalBranches += 1;
-            //     Globals.takenBranches += 1;
-
-            //     if (prediction == 1){
-
-            //     }
-            //     printGHR();
-            // }
-
-            // if (currentInst.opcode.matches("beq|bne") && (currentInst.taken == false)){
-            //     Globals.GHR = shiftLeft(Globals.GHR);
-            //     Globals.GHR[Globals.GHRSize-1] = 0;
-            //     Globals.totalBranches += 1;
-            //     printGHR();
-            // }
+            if (currentInst.opcode.matches("beq|bne") && (currentInst.taken == false)){
+                Globals.totalBranches += 1;
+            }
 
             Globals.pipelineList.add(newPipe);
 
@@ -343,86 +276,15 @@ class lab5 {
         }
     }
 
-    // Takes GHR and Turns it into an index
-    public static int parseGHR(){
-        int index = 0;
-        int counter = 0;
-        String binaryString = "";
-
-        while (counter < Globals.GHRSize){
-            binaryString += Globals.GHR[counter];
-            System.out.println(binaryString);
-            counter++;
-        }
-
-        index = Integer.parseInt(binaryString, 2);
-        System.out.println(index);
-
-        // if (Globals.GHR[3] == 1){
-        //     index += 1;
-        // }
-        // if (Globals.GHR[2] == 1){
-        //     index += 2;
-        // }
-        // if (Globals.GHR[1] == 1){
-        //     index += 4;
-        // }
-        // if (Globals.GHR[0] == 1){
-        //     index += 8;
-        // }
-        return index;
-    }
-
-    public static int predictBranch(int index){
-        //int index = parseGHR();
-        int prediction = Globals.predictionTable.get(index);
-        //System.out.println("Index: " + index);
-        return prediction;
-    }
-
-    public static int[] shiftLeft(int[] nums) {
-        if (nums == null || nums.length <= 1) {
-            return nums;
-        }
-        int start = nums[0];
-        System.arraycopy(nums, 1, nums, 0, nums.length - 1);
-        nums[nums.length - 1] = start;
-        return nums;
-    }
-
-    public static void printGHR(){
-        int counter = 0;
-        while(counter < Globals.GHRSize){
-            System.out.print("[" + Globals.GHR[counter] + "], ");
-            counter++;
-        }
-        System.out.println();
-    }
-
     public static void fillGHR(){
         int counter = 0;
-        while(counter < Globals.GHRSize){
+        System.out.println(Globals.GHR[0]);
+        System.out.println(Globals.GHR[1]);
+        System.out.println(Globals.GHR[2]);
+        while(counter < Globals.GHRSize-1){
             Globals.GHR[counter] = 0;
             counter++;
         }
-    }
-
-    public static void createPredictionTable(){
-        int counter = 0;
-        double predictionTableSize = Math.pow(2, Globals.GHRSize); 
-        while (counter < predictionTableSize){
-            Globals.predictionTable.put(counter, 0);
-            counter++;
-        }
-    }
-
-    public static void createGHR(){
-        createPredictionTable();
-        System.out.println("Globals.GHRSize: " + Globals.GHRSize);
-        Globals.GHR = new int[Globals.GHRSize];
-        fillGHR();
-        printGHR();
-        System.out.println("GHRSize: " + Globals.GHR.length);
     }
 
     public static void main(String args[]) throws IOException, IllegalArgumentException {
@@ -441,10 +303,8 @@ class lab5 {
         /* select mode */
         if (args.length == 3){
             Globals.GHRSize = Integer.parseInt(args[2]);
-
-
-            // fillGHR();
-            createGHR();
+            System.out.print(Globals.GHRSize);
+            fillGHR();
             run();
             interactive.runScript(args[1]);
         }
@@ -453,16 +313,12 @@ class lab5 {
             try{
                 intTest = Integer.parseInt(args[1]);
                 Globals.GHRSize = intTest;
-                // Globals.GHR = new ArrayList[Globals.GHRSize];
-                // fillGHR();
-                createGHR();
+                fillGHR();
                 run();
                 interactive.interactiveLoop();
             } catch (NumberFormatException nfe){
                 Globals.GHRSize = 2;
-                // Globals.GHR = new int[Globals.GHRSize];
-                // fillGHR();
-                createGHR();
+                fillGHR();
                 run();
                 interactive.runScript(args[1]);
             }
@@ -470,10 +326,7 @@ class lab5 {
             //interactive.interactiveLoop();
             //interactive.runScript(args[1]);
         } else {
-            Globals.GHRSize = 2;
-            // Globals.GHR = new int[Globals.GHRSize];
-            // fillGHR();
-            createGHR();
+            fillGHR();
             run();
             interactive.interactiveLoop();
         }

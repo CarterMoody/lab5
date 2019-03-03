@@ -176,7 +176,6 @@ class interactive{
     private static void programCompleteMsg(){
         
         double CPI = (double)Globals.Cycles / Globals.Instructions;
-        double Accuracy = (double)Globals.correctPredictions / Globals.totalBranches;
         System.out.println("\nProgram complete");
         System.out.print(String.format("CPI = " + "%-10.3f", CPI));
         System.out.print(String.format("Cycles = " + "%-10s", Globals.Cycles));
@@ -184,8 +183,7 @@ class interactive{
         System.out.println("Total Branches: " + Globals.totalBranches);
         System.out.println("Taken Branches: " + Globals.takenBranches);
         System.out.println("Correct Predictions: " + Globals.correctPredictions);
-
-        System.out.println("Branch Accuracy: " + String.format("%.4f%n", Accuracy));
+        System.out.println("Branch Accuracy: " + (Globals.correctPredictions/Globals.totalBranches));
         
     }
 

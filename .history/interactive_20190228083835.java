@@ -176,16 +176,10 @@ class interactive{
     private static void programCompleteMsg(){
         
         double CPI = (double)Globals.Cycles / Globals.Instructions;
-        double Accuracy = (double)Globals.correctPredictions / Globals.totalBranches;
         System.out.println("\nProgram complete");
         System.out.print(String.format("CPI = " + "%-10.3f", CPI));
         System.out.print(String.format("Cycles = " + "%-10s", Globals.Cycles));
         System.out.println(String.format("Instructions = " + "%-10s\n", Globals.Instructions));
-        System.out.println("Total Branches: " + Globals.totalBranches);
-        System.out.println("Taken Branches: " + Globals.takenBranches);
-        System.out.println("Correct Predictions: " + Globals.correctPredictions);
-
-        System.out.println("Branch Accuracy: " + String.format("%.4f%n", Accuracy));
         
     }
 
@@ -258,7 +252,7 @@ class interactive{
         Globals.Instructions = 0;
 
         // run everything (emulation)
-        lab5.run();
+        lab4.run();
         
     }
 
@@ -283,7 +277,6 @@ class interactive{
                 case 'm' : memory(userInput);                   break;      // Display Integer Memory Map
                 case 'c' : clear();                             break;      // Clear Registers, Memory, PC = 0
                 case 'i' : programCompleteMsg();                break;      // Display CPI and Instruction Info
-                case 'g' : lab5.printGHR();                     break;
             }
             System.out.print("mips> ");
             userInput = sc.nextLine();

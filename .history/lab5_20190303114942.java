@@ -352,11 +352,9 @@ class lab5 {
         while (counter < Globals.GHRSize){
             binaryString += Globals.GHR[counter];
             System.out.println(binaryString);
-            counter++;
         }
 
         index = Integer.parseInt(binaryString, 2);
-        System.out.println(index);
 
         // if (Globals.GHR[3] == 1){
         //     index += 1;
