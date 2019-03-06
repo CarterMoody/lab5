@@ -1,59 +1,40 @@
-lab4:
+lab5:
 	javac *.java
 
 clean:
 	rm *.class
 
-test:
-	java lab4 in/lab4_test1.asm scripts/lab4_test1.script > my/lab4_test1.output
-	diff -w -B my/lab4_test1.output out/lab4_test1.output
-	echo
-	java lab4 in/lab4_test2.asm scripts/lab4_test2.script > my/lab4_test2.output
-	diff -w -B my/lab4_test2.output out/lab4_test2.output
-	echo
-	java lab4 in/lab4_fib10.asm scripts/lab4_fib10.script > my/lab4_fib10.output
-	diff -w -B my/lab4_fib10.output out/lab4_fib10.output
-	echo
-	java lab4 in/lab4_fib20.asm scripts/lab4_fib20.script > my/lab4_fib20.output
-	diff -w -B my/lab4_fib20.output out/lab4_fib20.output
-	echo
+# lab5 tests
 
-test1:
-	java lab4 in/lab4_test1.asm scripts/lab4_test1.script
-	java lab4 in/lab4_test1.asm scripts/lab4_test1.script > my/lab4_test1.output
+test_lab5:
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 2 > my/lab5_ghr2.output
+	diff -w -B out/lab5_ghr2.output my/lab5_ghr2.output
 	echo
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 4 > my/lab5_ghr4.output
+	diff -w -B out/lab5_ghr4.output my/lab5_ghr4.output
 	echo
-	diff -w -B my/lab4_test1.output out/lab4_test1.output
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 8 > my/lab5_ghr8.output
+	diff -w -B out/lab5_ghr8.output my/lab5_ghr8.output
 
-test2:
-	java lab4 in/lab4_test2.asm scripts/lab4_test2.script
-	java lab4 in/lab4_test2.asm scripts/lab4_test2.script > my/lab4_test2.output
-	echo
-	echo
-	diff -w -B my/lab4_test2.output out/lab4_test2.output
+run_lab5_2:
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 2
 
-test3: 
-	java lab4 in/lab4_fib10.asm scripts/lab4_fib10.script
-	java lab4 in/lab4_fib10.asm scripts/lab4_fib10.script > my/lab4_fib10.output
-	echo
-	echo
-	diff -w -B my/lab4_fib10.output out/lab4_fib10.output
+test_lab5_2:
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 2 > my/lab5_ghr2.output
+	diff -w -B out/lab5_ghr2.output my/lab5_ghr2.output
 
-test4: 
-	java lab4 in/lab4_fib20.asm scripts/lab4_fib20.script
-	java lab4 in/lab4_fib20.asm scripts/lab4_fib20.script > my/lab4_fib20.output
-	echo
-	echo
-	diff -w -B my/lab4_fib20.output out/lab4_fib20.output
+run_lab5_4:
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 4
 
-interact1:
-	java lab4 in/lab4_test1.asm
+test_lab5_4:
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 4 > my/lab5_ghr4.output
+	diff -w -B out/lab5_ghr4.output my/lab5_ghr4.output
 
-interact2:
-	java lab4 in/lab4_test2.asm
+run_lab5_8:
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 8
 
-interact3:
-	java lab4 in/lab4_fib10.asm
+test_lab5_8:
+	java lab5 in/lab4_fib20.asm scripts/lab5.script 8 > my/lab5_ghr8.output
+	diff -w -B out/lab5_ghr8.output my/lab5_ghr8.output
 
-interact4:
-	java lab4 in/lab4_fib20.asm
+# figure run

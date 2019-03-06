@@ -295,7 +295,7 @@ class lab5 {
                     Globals.predictionTable.put(index, newPrediction);
                 }
 
-                printGHR();
+                //printGHR();
 
             }
 
@@ -351,12 +351,12 @@ class lab5 {
 
         while (counter < Globals.GHRSize){
             binaryString += Globals.GHR[counter];
-            System.out.println(binaryString);
+            //System.out.println(binaryString);
             counter++;
         }
 
         index = Integer.parseInt(binaryString, 2);
-        System.out.println(index);
+        //System.out.println(index);
 
         // if (Globals.GHR[3] == 1){
         //     index += 1;
@@ -418,11 +418,35 @@ class lab5 {
 
     public static void createGHR(){
         createPredictionTable();
-        System.out.println("Globals.GHRSize: " + Globals.GHRSize);
+        // System.out.println("Globals.GHRSize: " + Globals.GHRSize);
         Globals.GHR = new int[Globals.GHRSize];
         fillGHR();
-        printGHR();
-        System.out.println("GHRSize: " + Globals.GHR.length);
+        //printGHR();
+        // System.out.println("GHRSize: " + Globals.GHR.length);
+    }
+
+    public static void Circle(int xc, int yc, int r) {
+        // store xc as a0
+        // store yc as a1
+        // store r  as a2
+    }
+
+    public static void Line(int x0, int y0, int x1, int y1) {
+        // store x0 as a0
+        // store y0 as a1
+        // store x1 as a2
+        // store y1 as a3
+
+        // run Line.asm
+    }
+
+    // this stores the 
+    public static void runCoords() {
+
+    }
+
+    public static void writeCoords() {
+
     }
 
     public static void main(String args[]) throws IOException, IllegalArgumentException {
@@ -430,9 +454,6 @@ class lab5 {
         if(!(args.length == 1 || args.length == 2 || args.length == 3)) {
             throw new IllegalArgumentException(Globals.ARGS_ERROR);
         }
-
-        System.out.println(args[0]);
-        System.out.println(args[1]);
 
         read_asm(args[0]);      // build instruction objects
 

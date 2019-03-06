@@ -175,6 +175,7 @@ class interactive{
     /* prints CPI info */
     private static void programCompleteMsg(){
         
+        /*
         double CPI = (double)Globals.Cycles / Globals.Instructions;
         double Accuracy = (double)Globals.correctPredictions / Globals.totalBranches;
         System.out.println("\nProgram complete");
@@ -186,7 +187,14 @@ class interactive{
         System.out.println("Correct Predictions: " + Globals.correctPredictions);
 
         System.out.println("Branch Accuracy: " + String.format("%.4f%n", Accuracy));
+        */
         
+    }
+
+    private static void printBranchStats() {
+        double Accuracy = (double)Globals.correctPredictions / Globals.totalBranches * 100;
+
+        System.out.println(String.format("\naccuracy %.2f", Accuracy) + "% (" + Globals.correctPredictions + " correct predictions, " + Globals.totalBranches + " predictions)\n");
     }
 
     /* run until the program ends */
@@ -262,6 +270,8 @@ class interactive{
         
     }
 
+    /* 
+
     /* interactive mode */
     public static void interactiveLoop() {
 
@@ -282,7 +292,7 @@ class interactive{
                 case 'r' : run();                               break;      // Run Until Completion
                 case 'm' : memory(userInput);                   break;      // Display Integer Memory Map
                 case 'c' : clear();                             break;      // Clear Registers, Memory, PC = 0
-                case 'i' : programCompleteMsg();                break;      // Display CPI and Instruction Info
+                case 'b' : printBranchStats();                  break;      // Display CPI and Instruction Info
                 case 'g' : lab5.printGHR();                     break;
             }
             System.out.print("mips> ");
@@ -317,6 +327,8 @@ class interactive{
                 case 'r' : run();                               break;      // Run Until Completion
                 case 'm' : memory(line);                        break;      // Display Integer Memory Map
                 case 'c' : clear();                             break;      // Clear Registers, Memory, PC = 0
+                case 'b' : printBranchStats();                  break;
+                case 'g' : lab5.printGHR();                     break;
                 case 'q' : sc.close(); System.exit(0);          break;
             }
         }
