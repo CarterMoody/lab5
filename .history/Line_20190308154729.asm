@@ -282,19 +282,15 @@ main:
 
     add $t4, $t4, $t3       # error = error + deltay
 
-
-## This IF needs debugging #############
     # if (2* error >= deltax)
     addi $t1, $zero, 1
     sll $s4, $t4, $t1       # $s4 = error * 2
     slt $t0, $t2, $s4       # $t0 = 1 if deltax < 2*error
     beq $t0, $zero false2TimesError
-    add $t5, $t5, $t6       # y = y + ystep
+    #add $t5, $t5, $t6       # y = y + ystep
     sub $t4, $t4, $t2       # error = error - deltax
 
     false2TimesError:
-########################################
-
 
     addi $t7, $t7, 1        # x++
     j writeLoop
