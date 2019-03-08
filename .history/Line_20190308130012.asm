@@ -133,12 +133,6 @@ writePointsToCSV:
         add 	$a0, $s3, $0        # Place Contents of $s3 into $a0
         syscall                     # Execute Syscall
 
-        # print comma
-        li      $v0, 4
-        la      $a0, str_newline
-        syscall
-
-
 ### Debugging ###
 
     li $t1, 10          # end the line with \n

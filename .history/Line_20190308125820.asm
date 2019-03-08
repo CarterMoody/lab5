@@ -91,13 +91,6 @@ welcome:
 
 str_test:
     .asciiz "test\n"
-
-str_comma:
-    .asciiz ", "
-
-str_newline:
-    .asciiz "\n"
-
 str_fileName:
     .asciiz "line.csv"
 
@@ -117,27 +110,6 @@ writePointsToCSV:
         li      $v0, 4
         la      $a0, str_test
         syscall
-
-        # Display the result        
-        li      $v0, 1			    # Load Immediate, '1', Specifying Numerical Output
-        add 	$a0, $s2, $0        # Place Contents of $s2 into $a0
-        syscall                     # Execute Syscall
-
-        # print comma
-        li      $v0, 4
-        la      $a0, str_comma
-        syscall
-
-        # Display the result        
-        li      $v0, 1			    # Load Immediate, '1', Specifying Numerical Output
-        add 	$a0, $s3, $0        # Place Contents of $s3 into $a0
-        syscall                     # Execute Syscall
-
-        # print comma
-        li      $v0, 4
-        la      $a0, str_newline
-        syscall
-
 
 ### Debugging ###
 
