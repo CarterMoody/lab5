@@ -53,9 +53,9 @@ class Sample {
 
   }  //end BresenhamCircle
 
-  
+  /*
   public static void Line (int x0, int y0, int x1, int y1) {
-    int st, temp, deltax, deltay, error, y, ystep;
+    int st, temp, deltax, detlay, error, y, ystep;
 
     if (Math.abs(y1 - y0) > Math.abs(x1 - x0)) 
     {
@@ -68,12 +68,12 @@ class Sample {
         // swap x0 and y0
         temp = x0;
         x0 = y0;
-        y0 = temp;
+        y0 = t0;
 
         // swap x1 and y1
         temp = x1;
         x1 = y1;
-        y1 = temp;
+        y1 = x1;
     }
    
     if (x0 > x1) {
@@ -105,14 +105,11 @@ class Sample {
     try {
       final FileWriter fw = new FileWriter("outfilename.csv");
       final BufferedWriter out = new BufferedWriter(fw);
-      for (int x = x0; x <= x1; x++) {
+      for (int i = x0; x0 <= x1; i++) {
           if (st == 1) {
-              //plot(y,x);
-              out.write((y) + "," + (x) + "\n");
+              plot(y,x);
           } else {
-             //plot(x,y);\
-             out.write((x) + "," + (y) + "\n");
-
+             plot(x,y);
           }
   
           error = error + deltay;
@@ -128,7 +125,7 @@ class Sample {
     
 } //end function
 
-
+*/
 
   public static void main(String args[]) {
     

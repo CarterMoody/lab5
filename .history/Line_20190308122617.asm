@@ -115,8 +115,10 @@ writePointsToCSV:
     li $a2, 4       # hardcoded buffer length
     syscall         # write to file
 
-    addi $s0, $s0, 3    # point to end of buffer again
+
     jr $ra              # return to writeLoop
+
+
 
 
 
@@ -128,14 +130,12 @@ file_open:
     li $a2, 0   # File Permissions
     syscall     # File descriptor gets returned in $v0
     move $s6, $v0   # Save FD
-    jr $ra
 
     
 file_close:
     li $v0, 16      # system call to close the file
     move $a0, $s6   # file descriptor to close
     syscall         # close the file
-    jr $ra
 
 main:
     # User I/O
@@ -163,9 +163,6 @@ main:
 
     # s0: Stores Final X point value
     # s1: Stores Final Y point value
-
-    # Create File
-    jal file_open
 
     # Clear Registers
     move $t0, $zero
@@ -247,10 +244,8 @@ main:
 
     # for (int x = x0; x <= x1; x++) {
     add $t7, $zero, $a0     # x = x0
-    add $s5, $zero, $a2     # $s5 contains copy of x1
-    addi $s5, $s5, 1        # add 1 to $s5 for loop beq condition
     writeLoop:
-    beq $t7, $s5, exitWriteLoop     # break on x > x1
+    beq $t7, $a2, exitWriteLoop
     beq $t0, $zero, elseSTZero
         # out.write((y) + "," + (x) + "\n");
     # #t5 contains y
@@ -278,10 +273,7 @@ main:
 
     j exitProgram
 
-    exitProgram:  
-        # close file
-        jal file_close
-
+    exitProgram:                                    
         # exit
 	    li      $v0, 10
 	    syscall

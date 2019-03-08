@@ -105,7 +105,7 @@ class Sample {
     try {
       final FileWriter fw = new FileWriter("outfilename.csv");
       final BufferedWriter out = new BufferedWriter(fw);
-      for (int x = x0; x <= x1; x++) {
+      for (int x = x0; x0 <= x1; x++) {
           if (st == 1) {
               //plot(y,x);
               out.write((y) + "," + (x) + "\n");
