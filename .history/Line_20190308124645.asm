@@ -207,7 +207,7 @@ main:
     slt $t2, $t1, $zero         # Is $t1 less than 0?
     beq $t2, $zero, absContinue1    # Is $t1 less than 0?
     sub $t1, $zero, $t0     # Negative minus Negative = Positive
-    ori $s1, $t1, 0     # copy absolute value answer into $s1 for later
+    ori $s1, $zero, $t1     # copy absolute value answer into $s1 for later
 
     absContinue1:               # $t1 contains the absolute value of y1 - y0
 
@@ -234,7 +234,7 @@ main:
     add $a0, $zero, $a1     # x0 = y0
     add $a1, $zero, $t1     # y0 = temp
     # Swap x1 and y1
-    addi $t1, $a2, 0    # temp = x1
+    addi $t1, $zero, $a2    # temp = x1
     add $a2, $zero, $a3     # x1 = y1
     add $a3, $zero, $t1     # y1 = temp
 

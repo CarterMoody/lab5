@@ -203,17 +203,17 @@ main:
 
     # calculate Absolute Value of y1 - y0
     sub $t0, $a3, $a1       # Compute y1 - y0
-    ori $t1, $t0, 0     # Copy $t0 into $t1
+    ori $t1, $zero, $t1     # Copy $t0 into $t1
     slt $t2, $t1, $zero         # Is $t1 less than 0?
     beq $t2, $zero, absContinue1    # Is $t1 less than 0?
     sub $t1, $zero, $t0     # Negative minus Negative = Positive
-    ori $s1, $t1, 0     # copy absolute value answer into $s1 for later
+    ori $s1, $zero, $t1     # copy absolute value answer into $s1 for later
 
     absContinue1:               # $t1 contains the absolute value of y1 - y0
 
     # Calculate Absolute Value of x1 - x0
     sub $t3, $a2, $a0       # Compute x1 - x0
-    ori $t4, $t3, 0     # Copy $t3 into $t4
+    ori $t4, $t3, $zero     # Copy $t3 into $t4
     slt $t5, $t4, $zero         # Is $t4 less than 0?
     beq $t5, $zero, absContinue2    # Is $t4 less than 0?
     sub $t4, $zero, $t3     # Negative minus Negative = Positive
@@ -234,7 +234,7 @@ main:
     add $a0, $zero, $a1     # x0 = y0
     add $a1, $zero, $t1     # y0 = temp
     # Swap x1 and y1
-    addi $t1, $a2, 0    # temp = x1
+    addi $t1, $zero, $a2    # temp = x1
     add $a2, $zero, $a3     # x1 = y1
     add $a3, $zero, $t1     # y1 = temp
 
@@ -255,7 +255,7 @@ main:
     falseSwap:
 
     sub $t2, $a2, $a0       # deltax = x1 - x0
-    ori, $t3, $s1, 0    # deltay = Math.abs(y1 - y0) from earlier
+    ori, $t3, $zero, $s1    # deltay = Math.abs(y1 - y0) from earlier
     add $t4, $zero, $zero   # error = 0
     add $t5, $zero, $a1     # y = y0
 

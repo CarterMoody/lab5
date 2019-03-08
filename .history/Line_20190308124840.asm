@@ -234,7 +234,7 @@ main:
     add $a0, $zero, $a1     # x0 = y0
     add $a1, $zero, $t1     # y0 = temp
     # Swap x1 and y1
-    addi $t1, $a2, 0    # temp = x1
+    addi $t1, $zero, $a2    # temp = x1
     add $a2, $zero, $a3     # x1 = y1
     add $a3, $zero, $t1     # y1 = temp
 
