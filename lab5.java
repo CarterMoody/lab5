@@ -106,6 +106,21 @@ class lab5 {
 
     public static void write_csv() {
 
+        int i = 0;
+        try {
+            final FileWriter fw = new FileWriter("outfilename.csv");
+            final BufferedWriter out = new BufferedWriter(fw);
+
+            while(Globals.memory[i] != 0) {
+                out.write(Globals.memory[i] + "," + Globals.memory[i + 1] + "\n");
+                i += 2;
+            }
+
+            out.close();
+        } catch (IOException e) {
+  
+        }
+        
     }
 
     // parses an asm file

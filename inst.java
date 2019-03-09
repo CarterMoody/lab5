@@ -265,9 +265,6 @@ public class inst {
 
     private void RDop() {
 
-        System.out.println(this.opcode);
-        System.out.println(this.lineNo);
-
         int PC = Globals.registerMap.get("pc");
         int rs = Globals.registerMap.get(this.rs);
         int rt = Globals.registerMap.get(this.rt);
