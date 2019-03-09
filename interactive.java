@@ -293,6 +293,7 @@ class interactive{
                 case 'm' : memory(userInput);                   break;      // Display Integer Memory Map
                 case 'c' : clear();                             break;      // Clear Registers, Memory, PC = 0
                 case 'b' : printBranchStats();                  break;      // Display CPI and Instruction Info
+                case 'o' : lab5.read_csv();                     break;
                 case 'g' : lab5.printGHR();                     break;
             }
             System.out.print("mips> ");
@@ -328,6 +329,7 @@ class interactive{
                 case 'm' : memory(line);                        break;      // Display Integer Memory Map
                 case 'c' : clear();                             break;      // Clear Registers, Memory, PC = 0
                 case 'b' : printBranchStats();                  break;
+                case 'o' : lab5.read_csv();                     break;
                 case 'g' : lab5.printGHR();                     break;
                 case 'q' : sc.close(); System.exit(0);          break;
             }

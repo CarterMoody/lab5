@@ -104,6 +104,10 @@ class lab5 {
 
     /* Methods */
 
+    public static void write_csv() {
+
+    }
+
     // parses an asm file
     private static void read_asm(String asm_file) throws IOException {
 

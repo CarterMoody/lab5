@@ -208,13 +208,13 @@ public class inst {
         // case_4: sll
         if(this.opcode.equals("sll")) {
             
-            this.rd = args[0]; 
+            this.rs = args[0]; 
             this.rt = args[1];
             immediateConvert(args[2], false); 
 
             this.binary = "000000 00000 " +
+            registerMap.get(this.rs) + " " +
             registerMap.get(this.rt) + " " +
-            registerMap.get(this.rd) + " " +
             immediateBinary(5) + " " +
             opcodeMap.get(this.opcode);
 
@@ -264,6 +264,9 @@ public class inst {
     /* emulation logic */
 
     private void RDop() {
+
+        System.out.println(this.opcode);
+        System.out.println(this.lineNo);
 
         int PC = Globals.registerMap.get("pc");
         int rs = Globals.registerMap.get(this.rs);
