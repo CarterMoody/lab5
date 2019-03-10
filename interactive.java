@@ -427,8 +427,8 @@ class interactive{
                 case 'm' : memory(line);                        break;      // Display Integer Memory Map
                 case 'c' : clear();                             break;      // Clear Registers, Memory, PC = 0
                 case 'b' : printBranchStats();                  break;
-                case 'o' : write_csv();                    break;
-                case 'g' : printGHR();                     break;
+                case 'o' : write_csv();                         break;
+                case 'g' : printGHR();                          break;
                 case 'q' : sc.close(); System.exit(0);          break;
             }
         }

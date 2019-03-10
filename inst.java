@@ -282,6 +282,8 @@ public class inst {
         
         if (this.opcode.equals("addi")) {
             Globals.registerMap.put(this.rt, rd);   // store rd
+        } else if(this.opcode.equals("sll")) {
+            Globals.registerMap.put(this.rs, rd);   // store rd
         } else {
             Globals.registerMap.put(this.rd, rd);   // store rd
         }
