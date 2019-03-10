@@ -72,73 +72,8 @@ class interactive{
 
     }
 
-    private static void pipeline() {
-
-        int pc;
-
-        if(Globals.pipelineList.get(2).opcode.matches("j|jal|jr")) {
-            pc = Globals.pipelineList.get(4).pc - 1;
-        } else {
-            pc = Globals.pipelineList.get(3).pc;
-        }
-
-        System.out.println("\npc      if/id   id/exe  exe/mem mem/wb");
-        System.out.print(pc + "       ");
-
-        for (int i = 3; i >= 0; --i) {
-            System.out.print(String.format("%-8s", Globals.pipelineList.get(i).opcode));
-        }
-
-        System.out.println("\n");
-
-    }
-
-    private static void printFullPipe() {
-        for(pipe p : Globals.pipelineList) {
-            System.out.print(p.opcode + ", ");
-            System.out.print(p.pc + ", ");
-            System.out.println(p.stall);
-        }
-
-        System.out.println("\n");
-    }
-
-    private static void pipelineStep() {
-
-        pipe wb = Globals.pipelineList.get(0);  
-        pipe mem = Globals.pipelineList.get(1);
-        pipe ex = Globals.pipelineList.get(2);
-        pipe d = Globals.pipelineList.get(3);
-        pipe f = Globals.pipelineList.get(4);
-
-        if(ex.stall) {
-            Globals.pipelineList.add(3, new pipe("stall", d.pc));
-        }
-
-        if(mem.threeSquash) {
-            Globals.pipelineList.remove(2);
-            Globals.pipelineList.remove(2);
-            Globals.pipelineList.remove(2);
-            Globals.pipelineList.add(2, new pipe("squash", f.pc));
-            Globals.pipelineList.add(2, new pipe("squash", f.pc));
-            Globals.pipelineList.add(2, new pipe("squash", f.pc));
-        }
-
-        // if not at the end
-        if(Globals.pipelineList.size() > 4) {
-
-            Globals.pipelineList.pop();
-            Globals.Cycles += 1;
-
-            if(!wb.opcode.matches("squash|stall|empty"))
-                Globals.Instructions += 1;
-        }
-
-    }
-
     /* run step(s) */
-    private static void stepClock(String userInput) {
-        
+    private static void step(String userInput) {
         int pc = Globals.registerMap.get("pc");
         int numInst = 1;
         String args[] = userInput.split(" ");
@@ -151,60 +86,23 @@ class interactive{
             }
         }
 
-        /* run instructions (until end reached) 
-        for(int i = 0; (i < numInst) && (!emptyCheck() || (pc == 0)); i++) {
-            if((pc == Globals.instList.size())) {
-                pipelineStep(new inst("empty", null, 0));
-            } else {
-                pipelineStep(Globals.instList.get(pc));
-                pc = Globals.registerMap.get("pc");
-            }
+        /* run instructions (until end reached) */
+        for(int i = 0; (i < numInst) && (pc != Globals.instList.size()); i++) {
+            Globals.instList.get(pc).run(); // run instruction
+            pc = Globals.registerMap.get("pc");
         }
-        */
 
-        // System.out.println(mem.stall);
-        // System.out.println(mem.opcode);
-
-        // check for stalls
-
-        pipeline();     // print the pipeline
-        pipelineStep();
-
-    }
-
-    /* prints CPI info */
-    private static void programCompleteMsg(){
-        
-        /*
-        double CPI = (double)Globals.Cycles / Globals.Instructions;
-        double Accuracy = (double)Globals.correctPredictions / Globals.totalBranches;
-        System.out.println("\nProgram complete");
-        System.out.print(String.format("CPI = " + "%-10.3f", CPI));
-        System.out.print(String.format("Cycles = " + "%-10s", Globals.Cycles));
-        System.out.println(String.format("Instructions = " + "%-10s\n", Globals.Instructions));
-        System.out.println("Total Branches: " + Globals.totalBranches);
-        System.out.println("Taken Branches: " + Globals.takenBranches);
-        System.out.println("Correct Predictions: " + Globals.correctPredictions);
-
-        System.out.println("Branch Accuracy: " + String.format("%.4f%n", Accuracy));
-        */
-        
-    }
-
-    private static void printBranchStats() {
-        double Accuracy = (double)Globals.correctPredictions / Globals.totalBranches * 100;
-
-        System.out.println(String.format("\naccuracy %.2f", Accuracy) + "% (" + Globals.correctPredictions + " correct predictions, " + Globals.totalBranches + " predictions)\n");
+        System.out.println("        " + numInst + " instruction(s) executed");
     }
 
     /* run until the program ends */
     private static void run() {
+        int pc = Globals.registerMap.get("pc");
 
-        while(Globals.pipelineList.size() > 4) {
-            pipelineStep();
+        while(pc != Globals.instList.size()) {
+            Globals.instList.get(pc).run(); // run instruction
+            pc = Globals.registerMap.get("pc");
         }
-
-        programCompleteMsg();
     }
 
     /* m num1 num2 = display data memory from location num1 to num2 */
@@ -244,33 +142,20 @@ class interactive{
 
     }
 
-    /* clear all registers and pipeline */
+    /* clear all registers */
     private static void clear() {
         for (Map.Entry<String, Integer> entry : Globals.registerMap.entrySet()) {
             entry.setValue(0);
         }
         System.out.println("        Simulator reset\n");
-
-        // clear memory
-        Globals.memory = new int[Globals.MEMORY_SIZE];
-
-        // reset the pipeline
-        Globals.pipelineList = new LinkedList<pipe>(Arrays.asList(
-            new pipe("empty", 0),
-            new pipe("empty", 0),
-            new pipe("empty", 0)
-        ));
-
-        // reset instruction stuff
-        Globals.Cycles = 0;
-        Globals.Instructions = 0;
-
-        // run everything (emulation)
-        lab5.run();
-        
     }
 
-    /* 
+    /* print branch stats */
+    private static void printBranchStats() {
+        double Accuracy = (double)Globals.correctPredictions / Globals.totalBranches * 100;
+
+        System.out.println(String.format("\naccuracy %.2f", Accuracy) + "% (" + Globals.correctPredictions + " correct predictions, " + Globals.totalBranches + " predictions)\n");
+    }
 
     /* interactive mode */
     public static void interactiveLoop() {
@@ -287,13 +172,12 @@ class interactive{
             switch(c) {
                 case 'h' : System.out.println(HELP_MESSAGE);    break;      // Show Help
                 case 'd' : dump();                              break;      // Dump Register State
-                case 'p' : pipeline();                          break;      // Show Pipeline Registers
-                case 's' : stepClock(userInput);                break;      // Step through <userInput> clock cycles
+                case 's' : step(userInput);                break;      // Step through <userInput> clock cycles
                 case 'r' : run();                               break;      // Run Until Completion
                 case 'm' : memory(userInput);                   break;      // Display Integer Memory Map
                 case 'c' : clear();                             break;      // Clear Registers, Memory, PC = 0
                 case 'b' : printBranchStats();                  break;      // Display CPI and Instruction Info
-                case 'o' : lab5.write_csv();                     break;
+                case 'o' : lab5.write_csv();                    break;
                 case 'g' : lab5.printGHR();                     break;
             }
             System.out.print("mips> ");
@@ -323,13 +207,12 @@ class interactive{
             switch(line.toLowerCase().charAt(0)) {
                 case 'h' : System.out.println(HELP_MESSAGE);    break;      // Show Help
                 case 'd' : dump();                              break;      // Dump Register State
-                case 'p' : pipeline();                          break;      // Show Pipeline Registers
-                case 's' : stepClock(line);                     break;      // Step through <line> clock cycles
+                case 's' : step(line);                          break;      // Step through <line> clock cycles
                 case 'r' : run();                               break;      // Run Until Completion
                 case 'm' : memory(line);                        break;      // Display Integer Memory Map
                 case 'c' : clear();                             break;      // Clear Registers, Memory, PC = 0
                 case 'b' : printBranchStats();                  break;
-                case 'o' : lab5.write_csv();                     break;
+                case 'o' : lab5.write_csv();                    break;
                 case 'g' : lab5.printGHR();                     break;
                 case 'q' : sc.close(); System.exit(0);          break;
             }

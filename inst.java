@@ -347,7 +347,7 @@ public class inst {
     }
 
     /* run emulation of object */
-    public void emulate_instruction() {
+    public void run() {
         switch(this.opType) {
             case "RD"   : RDop();   break; 
             case "MEM"  : MEMop();  break;

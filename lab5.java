@@ -229,7 +229,7 @@ class lab5 {
             
             currentInst = Globals.instList.get(pc);
 
-            currentInst.emulate_instruction(); // run instruction
+            currentInst.run(); // run instruction
             //interactive.dump();
 
             // set pipe pc properly
@@ -442,30 +442,6 @@ class lab5 {
         fillGHR();
         //printGHR();
         // System.out.println("GHRSize: " + Globals.GHR.length);
-    }
-
-    public static void Circle(int xc, int yc, int r) {
-        // store xc as a0
-        // store yc as a1
-        // store r  as a2
-    }
-
-    public static void Line(int x0, int y0, int x1, int y1) {
-        // store x0 as a0
-        // store y0 as a1
-        // store x1 as a2
-        // store y1 as a3
-
-        // run Line.asm
-    }
-
-    // this stores the 
-    public static void runCoords() {
-
-    }
-
-    public static void writeCoords() {
-
     }
 
     public static void main(String args[]) throws IOException, IllegalArgumentException {
