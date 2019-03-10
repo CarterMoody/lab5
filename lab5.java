@@ -108,7 +108,7 @@ class lab5 {
 
         int i = 0;
         try {
-            final FileWriter fw = new FileWriter("outfilename.csv");
+            final FileWriter fw = new FileWriter("coordinates.csv");
             final BufferedWriter out = new BufferedWriter(fw);
 
             while(Globals.memory[i] != 0) {

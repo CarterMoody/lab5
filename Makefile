@@ -38,3 +38,6 @@ test_lab5_8:
 	diff -w -B out/lab5_ghr8.output my/lab5_ghr8.output
 
 # figure run
+test_figure:
+	java lab5 figure.asm scripts/figure.script
+	diff -w -B out/coordinates.csv coordinates.csv
