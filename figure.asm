@@ -15,8 +15,6 @@ circle:
     sub     $t3, $t3, $t4   # diagonalInc = 10 - 4 * r   
 
     addi    $t4, $0, 6     # rightInc = 6 
-    
-    #j plotTest  # testing plots without store for qtspim
 
     plot:
         #check if plot loop ends
@@ -94,87 +92,6 @@ circle:
         sub $t5, $a1, $t0
         sw   $t5,  0($s0) 
         addi $s0, $s0, 1
-
-        j plotTestEnd
-
-    plotTest:
-        #check if plot loop ends
-        slt     $t5, $t1, $t0   # break if y < x
-        bne     $t5, $0, exit   
-
-        #plot (xc+x, yc+y)
-        add $t5, $a0, $t0
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        add $t5, $a1, $t1
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        #plot (xc+x, yc-y)
-        add $t5, $a0, $t0
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        sub $t5, $a1, $t1
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        #plot (xc-x, yc+y)
-        sub $t5, $a0, $t0
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        add $t5, $a1, $t1
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        #plot (xc-x, yc-y)
-        sub $t5, $a0, $t0
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        sub $t5, $a1, $t1
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        #plot (xc+y, yc+x)
-        add $t5, $a0, $t1
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        add $t5, $a1, $t0
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        #plot (xc+y, yc-x)
-        add $t5, $a0, $t1
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        sub $t5, $a1, $t0
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        #plot (xc-y, yc+x)
-        sub $t5, $a0, $t1
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        add $t5, $a1, $t0
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        #plot (xc-y, yc-x)
-        sub $t5, $a0, $t1
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-
-        sub $t5, $a1, $t0
-        #sw   $t5,  0($s0) 
-        addi $s0, $s0, 1
-    
-    plotTestEnd:
 
         # if g >=  0
         if:
