@@ -210,7 +210,6 @@ line:
     add $t7, $0, $a0     # x = x0
     add $s5, $0, $a2     # $s5 contains copy of x1
     addi $s5, $s5, 1        # add 1 to $s5 for loop beq condition
-
     writeLoop:
     beq $t7, $s5, exitWriteLoop     # break on x > x1
     beq $t0, $0, elseSTZero      # is ST==0?
@@ -233,6 +232,7 @@ line:
     addi $s0, $s0, 1            # increment stack pointer (memory pointer)
     sw $s3, 0($s0)              # Write $s3 to memory
     addi $s0, $s0, 1            # increment stack pointer
+
     add $t4, $t4, $t3       # error = error + deltay
 
     # if (2* error >= deltax)
@@ -245,6 +245,7 @@ line:
     sub $t4, $t4, $t9       # error = error - deltax
 
     false2TimesError:
+
     addi $t7, $t7, 1        # x++
     j writeLoop
 

@@ -141,9 +141,11 @@ line:
     add $t1, $t0, $0     # Copy $t0 into $t1
     slt $t2, $t1, $0         # Is $t1 less than 0?
     beq $t2, $0, absContinue1    # Is $t1 less than 0?
-    sub $t1, $0, $t0     # Negative minus Negative = Positive\
+    sub $t1, $0, $t0     # Negative minus Negative = Positive
+    
 
     absContinue1:               # $t1 contains the absolute value of y1 - y0
+
     # Calculate Absolute Value of x1 - x0
     sub $t3, $a2, $a0       # Compute x1 - x0
     add $t4, $t3, $0     # Copy $t3 into $t4
@@ -160,6 +162,7 @@ line:
     j skipIfST              # Jump to after if(st==1)
 
     absIf:
+
     addi $t0, $0, 1      # st = 1
     # Swap x0 and y0
     add $t1, $0, $a0     # temp = x0
@@ -172,10 +175,12 @@ line:
     add $a3, $0, $t1     # y1 = temp
 
     skipIfST:
+ 
     # if (x0 > x1)
     slt $t7, $a2, $a0       # $t7 will be 1 if x1 < x0
     beq $t7, $0, falseSwap
     # swap x0 and x1
+
     add $t1, $0, $a0     # temp = x0
     add $a0, $0, $a2     # x0 = x1
     add $a2, $0, $t1     # x1 = temp
@@ -185,6 +190,7 @@ line:
     add $a3, $0, $t1     # y1 = temp
 
     falseSwap:
+
     sub $t9, $a2, $a0       # deltax = x1 - x0
     # calculate Absolute Value of y1 - y0
     sub $t7, $a3, $a1              # Compute y1 - y0
@@ -194,9 +200,12 @@ line:
     sub $t1, $0, $t7            # Negative minus Negative = Positive
     
     absContinue3:               # $t1 contains the absolute value of y1 - y0
+
     add $t3, $t1, $0        # deltay = Math.abs(y1 - y0) from earlier
+
     add $t4, $0, $0   # error = 0
     add $t5, $0, $a1     # y = y0
+
     slt $t7, $a1, $a3       # $t7 will be 1 if y0 < y1
     beq $t7, $0, falseYStep
     addi $t6, $0, 1      # ystep = 1
@@ -206,11 +215,11 @@ line:
     addi $t6, $0, -1     # ystep = -1
 
     skipfalseYStep:
+
     # for (int x = x0; x <= x1; x++) {
     add $t7, $0, $a0     # x = x0
     add $s5, $0, $a2     # $s5 contains copy of x1
     addi $s5, $s5, 1        # add 1 to $s5 for loop beq condition
-
     writeLoop:
     beq $t7, $s5, exitWriteLoop     # break on x > x1
     beq $t0, $0, elseSTZero      # is ST==0?
@@ -229,10 +238,12 @@ line:
     skipElseSTZero:
     # jal writePointsToCSV      # Calls function to write $s2 then ',' then $s3 then '\n' to file
     # Write Points to Memory
+    plotLinePoints:
     sw $s2, 0($s0)              # Write $s2 to memory
     addi $s0, $s0, 1            # increment stack pointer (memory pointer)
     sw $s3, 0($s0)              # Write $s3 to memory
     addi $s0, $s0, 1            # increment stack pointer
+
     add $t4, $t4, $t3       # error = error + deltay
 
     # if (2* error >= deltax)
@@ -245,6 +256,7 @@ line:
     sub $t4, $t4, $t9       # error = error - deltax
 
     false2TimesError:
+
     addi $t7, $t7, 1        # x++
     j writeLoop
 
