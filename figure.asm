@@ -237,10 +237,9 @@ line:
 
     # if (2* error >= deltax)
     add $t8, $0, $0  # reset $t8
-    addi $t1, $0, 1
-    sll $s4, $t4, $t1       # $s4 = error * 2
+    sll $s4, $t4, 1       # $s4 = error * 2
     slt $t8, $t9, $s4       # $t8 = 1 if deltax < 2*error
-    beq $t8, $0 false2TimesError
+    beq $t8, $0, false2TimesError
     add $t5, $t5, $t6       # y = y + ystep
     sub $t4, $t4, $t9       # error = error - deltax
 
@@ -300,6 +299,8 @@ main:
     addi $a1, $0, 60    # y0
     addi $a2, $0, 30    # x1
     addi $a3, $0, 50    # y1
+    # st = 0
+    
 
     jal line
 
