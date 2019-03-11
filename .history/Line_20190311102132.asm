@@ -2,6 +2,8 @@
 # Section:      09
 # Description:  returns the quotient of a 64-bit integer (divisor must be a power of 2)
 
+.data
+
 .text
 
 
@@ -26,27 +28,8 @@ main:
     # s0: Stores Final X point value
     # s1: Stores Final Y point value
 
-    ################################################################################
-    #### PSEUDO FUNCTION CALLS ####
-    ################################################################################
-    # Body
-    #  addi $a0, $zero, 30
-    # addi $a1, $zero, 80
-    #  addi $a2, $zero, 30
-    #  addi $a3, $zero, 30
-
-     #Left Leg
-       addi $a0, $zero, 20
-       addi $a1, $zero, 1
-       addi $a2, $zero, 30
-       addi $a3, $zero, 30
-
-
-
-    ################################################################################
-    ################################################################################
-    ################################################################################
-
+    # Create File
+    # jal file_open
 
     # Clear Registers
     move $t0, $zero
